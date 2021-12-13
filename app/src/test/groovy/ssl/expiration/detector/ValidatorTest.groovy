@@ -14,8 +14,10 @@ class ValidatorTest extends Specification {
         ret == true
 
         where:
-        url                      | _
-        "https://studio.design/" | _
+        url                         | _
+//        "https://studio.design/" | _
+        "https://3tomeno.work" | _
+        "https://offer1201.com"     | _
 
     }
 }

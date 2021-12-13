@@ -11,6 +11,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
+import java.security.cert.CertificateExpiredException;
 import java.security.cert.X509Certificate;
 
 @Slf4j
@@ -39,7 +40,16 @@ public class Validator {
                 Certificate[] certs = conn.getServerCertificates();
                 for (Certificate cert : certs) {
                     X509Certificate x509 = (X509Certificate)cert;
-                    System.out.println(x509.getNotAfter().toString());
+                    System.out.println("fqdn : " + fqdn + "<" + x509.getNotAfter().toString() + ">");
+
+                    if(cert instanceof X509Certificate) {
+                        try {
+                            ( (X509Certificate) cert).checkValidity();
+                            System.out.println("Certificate is active for current date");
+                        } catch(CertificateExpiredException cee) {
+                            System.out.println("Certificate is expired");
+                        }
+                    }
                 }
                 ret = true;
             }
